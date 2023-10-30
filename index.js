@@ -13,51 +13,23 @@ const questions = [
   {
     type: 'input',
     name: 'text',
-    choices: "3", // how to create text length?
-    message: 'Please enter in 3 letters of text for the Logo Name.',
+    message: 'Please enter in 3 characters of text for the Logo Name.',
+    // how to create text length?
     validate: userText => {
-      if (userText < text.length || userText > text.length) {
-        return false;
-      } else {
-        (userText = text.length)
-        return true;
+      if (userText.length < 1 || userText.length > 3) {
+        false
+        console.log('Please enter 3 characters for Logo.!')
       }
-    }
-  },
-  {
-    type: 'checkbox',
-    name: 'textColor',
-    choices: ['red, green, blue, black, yellow, orange'],
-    message: 'Please choose a color for the text of your Logo.',
-    validate: userTextColor => {
-      if (userTextColor) {
-        return true;
-      } else {
-        console.log('Please choose a color for the text of your Logo!');
-        return false;
+      else {
+        return true
       }
-    }
 
-
-  },
-  {
-    type: 'checkbox',
-    name: 'colorLogo',
-    choices: ['red, green, blue, black, yellow, orange'],
-    message: 'Please choose a color for the Logo Text.',
-    validate: userColorLogo => {
-      if (userColorLogo) {
-        return true;
-      } else {
-        console.log('Please choose a color for your Logo!');
-        return false;
-      }
     }
   },
   {
     type: 'checkbox',
     name: 'shape',
-    choices: ['triangle, square, circle'],
+    choices: ['Triangle', 'Square', 'Circle'],
     message: 'Please choose a shape for the Logo.',
     validate: userShape => {
       if (userShape) {
@@ -72,7 +44,7 @@ const questions = [
   {
     type: 'checkbox',
     name: 'colorShape',
-    choices: ['red, green, blue, black, yellow, orange'],
+    choices: ['Red', 'Green', 'Blue', 'Orange'],
     message: 'Please choose a color for the shape of the Logo.',
     validate: userColorShape => {
       if (userColorShape) {
