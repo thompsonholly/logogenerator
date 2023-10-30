@@ -4,7 +4,7 @@ const jest = require('jest');
 const fs = require('fs');
 const { writeFile } = require('fs')
 
-const generateLogo = require('./lib/shapes')
+// const generateLogo = require('./lib/shapes')
 
 console.log("Please answer the following quetsions to generate your logo!");
 
@@ -85,3 +85,25 @@ const questions = [
   }
 
 ]
+
+function writeToFile(blueberry) {
+  fs.writeFile('./output/logo.svg', blueberry, (err) => {
+    if (err) {
+      console.log('Error');
+    }
+    console.log('You created a LOGO!')
+  })
+}
+
+function init() {
+  inquirer.prompt(questions).then((data) => {
+    // check what data looks like before write to file
+    console.log('Data is', data);
+
+    const logoInput = generateLogo(data);
+    // Create a function to write logo.svg
+    writeToFile(logoInput);
+  })
+}
+// Function call to initialize app
+init();
