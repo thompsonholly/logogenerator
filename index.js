@@ -3,6 +3,7 @@ const jest = require('jest');
 
 const fs = require('fs');
 const { writeFile } = require('fs')
+const { Triangle, Circle, Square } = require("./lib/shapes")
 
 // const generateLogo = require('./lib/shapes')
 
@@ -23,11 +24,23 @@ const questions = [
       else {
         return true
       }
-
     }
   },
   {
-    type: 'checkbox',
+    type: 'input',
+    name: 'textColor',
+    message: 'Please enter in a color for the text.',
+    validate: textColor => {
+      if (userTextColor) {
+        return true;
+      } else {
+        console.log('Enter a color keyword!')
+      }
+      return false;
+    }
+  },
+  {
+    type: 'list',
     name: 'shape',
     choices: ['Triangle', 'Square', 'Circle'],
     message: 'Please choose a shape for the Logo.',
@@ -35,28 +48,41 @@ const questions = [
       if (userShape) {
         return true;
       } else {
-        console.log('Please choose a shape for your Logo!');
+        console.log('Please choose a shape for your Logo!')
         return false;
       }
     }
-
   },
   {
-    type: 'checkbox',
-    name: 'colorShape',
-    choices: ['Red', 'Green', 'Blue', 'Orange'],
+    type: 'input',
+    name: 'shapeColor',
     message: 'Please choose a color for the shape of the Logo.',
-    validate: userColorShape => {
+    validate: shapeColor => {
       if (userColorShape) {
         return true;
       } else {
-        console.log('Please choose a color for the shape of your Logo!');
+        console.log('Please enter a valid color for the shape of your Logo!')
         return false;
       }
     }
   }
-
 ]
+// render logo shape and text
+class SVG {
+  const() {
+    this.textElement = ''
+    this.shapeElement = ''
+  }
+  render() {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">${this.shapeElement}${this.textElement}</svg>`
+  }
+  setTextElement(text, textColor) {
+    this.textElement = `<text x="150" y="125" text-anchor="middle" fill="${textColor}">${text} </text>`
+  }
+  setShapeElement(shape) {
+    this.shapeElement = shape.render()
+  }
+}
 
 function writeToFile(blueberry) {
   fs.writeFile('./output/logo.svg', blueberry, (err) => {
@@ -70,9 +96,9 @@ function writeToFile(blueberry) {
 function init() {
   inquirer.prompt(questions).then((data) => {
     // check what data looks like before write to file
-    console.log('Data is', data);
+    console.log('Here is', data);
 
-    const logoInput = generateLogo(data);
+    const logoInput = render(data);
     // Create a function to write logo.svg
     writeToFile(logoInput);
   })
