@@ -3,7 +3,8 @@ const jest = require('jest');
 
 const fs = require('fs');
 const { writeFile } = require('fs')
-const { Triangle, Circle, Square } = require("./lib/shapes")
+const { Triangle, Circle, Square } = require("./lib/shapes");
+// const { userInfo } = require('os');
 
 // const generateLogo = require('./lib/shapes')
 
@@ -15,7 +16,7 @@ const questions = [
     type: 'input',
     name: 'text',
     message: 'Please enter in 3 characters of text for the Logo Name.',
-    // how to create text length?
+    // how to create text length
     validate: userText => {
       if (userText.length < 1 || userText.length > 3) {
         false
@@ -30,13 +31,13 @@ const questions = [
     type: 'input',
     name: 'textColor',
     message: 'Please enter in a color for the text.',
-    validate: textColor => {
+    validate: userTextColor => {
       if (userTextColor) {
         return true;
       } else {
-        console.log('Enter a color keyword!')
+        console.log('Enter in a color keyword!');
+        return false;
       }
-      return false;
     }
   },
   {
@@ -48,7 +49,7 @@ const questions = [
       if (userShape) {
         return true;
       } else {
-        console.log('Please choose a shape for your Logo!')
+        console.log('Please choose a shape!');
         return false;
       }
     }
@@ -57,24 +58,32 @@ const questions = [
     type: 'input',
     name: 'shapeColor',
     message: 'Please choose a color for the shape of the Logo.',
-    validate: shapeColor => {
-      if (userColorShape) {
+    validate: userShapeColor => {
+      if (userShapeColor) {
         return true;
       } else {
-        console.log('Please enter a valid color for the shape of your Logo!')
+        console.log('Please enter in a color keyword!');
         return false;
       }
     }
-  }
+  },
 ]
 // render logo shape and text
-class SVG {
+class Svg {
   const() {
     this.textElement = ''
     this.shapeElement = ''
   }
-  render() {
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">${this.shapeElement}${this.textElement}</svg>`
+
+  renderFinalSvg() {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
+      <text x="150" y="125" text-anchor="middle" fill="${textColor}">${text}</text>
+    </svg>`
+  }
+
+
+  renderShapeSVG() {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" >${this.shapeElement}${this.textElement}</svg>`
   }
   setTextElement(text, textColor) {
     this.textElement = `<text x="150" y="125" text-anchor="middle" fill="${textColor}">${text} </text>`
@@ -94,14 +103,45 @@ function writeToFile(blueberry) {
 }
 
 function init() {
+  // let userInfo = "";
+  let fileName = "logo.svg";
+
   inquirer.prompt(questions).then((data) => {
     // check what data looks like before write to file
     console.log('Here is', data);
 
-    const logoInput = render(data);
+    // const logoInput = render(data);
     // Create a function to write logo.svg
-    writeToFile(logoInput);
+    userText = data.text;
+    userTextColor = data.textColor;
+    userShape = data.shape;
+    userShapeColor = data.shapeColor;
+
+    let shapeObj
+    let finalSvgCode
+    if (userShape === "Square") {
+      shapeObj = new Square(userText, userTextColor, userShapeColor)
+      finalSvgCode = shapeObj.renderSvg()
+      console.log(finalSvgCode)
+    }
+    if (userShape === "Circle") {
+      shapeObj = new Circle(userText, userTextColor, userShapeColor)
+      finalSvgCode = shapeObj.renderSvg()
+      console.log(finalSvgCode)
+    }
+    if (userShape === "Triangle") {
+      shapeObj = new Triangle(userText, userTextColor, userShapeColor)
+      finalSvgCode = shapeObj.renderSvg()
+      console.log(finalSvgCode)
+    }
+    // let svgObj = new Svg();
+    // svgObj.setTextElement(userText, userTextColor);
+    // svgObj.setShapeElement(userShape, userShapeColor);
+    // userInfo = svgObj.renderShapeSVG();
+
+    writeToFile(finalSvgCode);
   })
 }
+
 // Function call to initialize app
 init();
