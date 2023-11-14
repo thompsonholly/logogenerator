@@ -11,7 +11,7 @@ You can quickly and easily create a README file by using the command-line applic
 ![screenshot](/homework/logogenerator/images/Example.png)
 
 
-(https://github.com/thompsonholly/readmegenerator)
+(https://github.com/thompsonholly/logogenerator)
 
 Video Walkthrough 
 (https://github.com/thompsonholly/logogenerator)
