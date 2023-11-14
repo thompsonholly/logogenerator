@@ -14,4 +14,4 @@ You can quickly and easily create a README file by using the command-line applic
 (https://github.com/thompsonholly/readmegenerator)
 
 Video Walkthrough 
-(https://watch.screencastify.com/v/tOKCC4EB5z4urfcb2oKS)
+(https://watch.screencastify.com/v/9uZtn4KUSjivNhnKdcXo)
